@@ -4,11 +4,13 @@ d3.addModule(
 	type: "Прочее",
 	name: 'Показывать favicons доменов',
 	author: 'Stasik0, NickJr, crimaniak',
+	postSelector: 'div.dt > h3 > a.b-post_snippet_icon, div.post_body a, div.dt div.post_video a',
+	commentSelector: 'div.c_body a',
 	config: {
 		active:{type:'checkbox', value:1},
 		mouseover:{type:'radio', caption:'Когда:', options:{"перманентно":0, "только при наведении":1}, value:0},
-		position:{type:'radio', caption:'Где:', options:{"слева от ссылки":0, "справа от ссылки":1}, value:1},
-		domainWhitelist:{type: 'text', caption:'Список доменов', value:'dirty.ru,d3.ru,d3search.ru,livejournal.com,lenta.ru,flickr.com,google.com,google.ru,yandex.ru,yandex.net,rian.ru,wikipedia.org,wikimedia.org,futurico.ru,leprosorium.ru,lepra.ru,facebook.com,twitter.com,gazeta.ru,vedomosti.ru,1tv.ru,fontanka.ru,kommersant.ru,vesti.ru,kp.ru,blogspot.com,narod.ru,vimeo.com,rbc.ru,korrespondent.net,youtube.com'
+		position:{type:'radio', caption:'Где:', options:{"слева от ссылки":0, "справа от ссылки":1}, value:0},
+		domainWhitelist:{type: 'text', caption:'Список доменов', value:'d3.ru,livejournal.com,lenta.ru,flickr.com,google.com,google.ru,yandex.ru,yandex.net,rian.ru,wikipedia.org,wikimedia.org,futurico.ru,leprosorium.ru,facebook.com,twitter.com,gazeta.ru,vedomosti.ru,1tv.ru,fontanka.ru,kommersant.ru,vesti.ru,kp.ru,blogspot.com,narod.ru,vimeo.com,rbc.ru,korrespondent.net,youtube.com'
 		}
 	},
 	
@@ -55,42 +57,46 @@ d3.addModule(
 	},
 
 	onPost: function(post) {
-		this.processItem(post.container);
+		this.processItem(this.postSelector, post.container);
 	},
 
 	onComment: function(comment) {
-		this.processItem(comment.container);
+		this.processItem(this.commentSelector, comment.container);
 	},
 
-	processItem: function(container) {
+	processLink: function(link)
+	{
+		if (this.inWhiteList(link.hostname)) {
+			var faviconUrl;
+			if (link.hostname.indexOf('d3.ru', link.hostname.length - 'd3.ru'.length) !== -1) {
+				//yandex has no d3.ru icon yet
+				faviconUrl = location.protocol + '//www.google.com/s2/favicons?domain=' + link.hostname;
+			} else {
+				faviconUrl = location.protocol + '//favicon.yandex.net/favicon/' + link.hostname;
+			}
+			if (this.config.mouseover.value==1) {
+				var me=this;
+				$j(link).mouseover(function () {
+					me.showFavicon($j(this), faviconUrl);
+				}).mouseout(function () {
+					me.hideFavicon($j(this));
+				});
+			} else {
+				this.showFavicon($j(link), faviconUrl);
+			}
+		}
+	},
+	
+	processItem: function(selector, container) {
 		var me=this;
 		//iterate over links
-		$j.each($j('div.dt > h3 > a', container)
-			.add('div.dt a, div.c_body a, div.dt div.post_video a', container)
+		$j.each($j(selector, container)
 			.not('a[class*="b-controls_button"]')
 			.not(':has(img)')
 			.not('a[href=#]')
-//			.not('a[href*="' + window.location.hostname + '"]')
 			,
 			function (index, link) {
-				if (me.inWhiteList(link.hostname)) {
-					var faviconUrl;
-					if (link.hostname.indexOf('d3.ru', link.hostname.length - 'd3.ru'.length) !== -1) {
-						//yandex has no d3.ru icon yet
-						faviconUrl = 'http://www.google.com/s2/favicons?domain=' + link.hostname;
-					} else {
-						faviconUrl = 'http://favicon.yandex.net/favicon/' + link.hostname;
-					}
-					if (me.config.mouseover.value==1) {
-						$j(link).mouseover(function () {
-							me.showFavicon($j(this), faviconUrl);
-						}).mouseout(function () {
-							me.hideFavicon($j(this));
-						});
-					} else {
-						me.showFavicon($j(link), faviconUrl);
-					}
-				}
+				me.processLink(link);
 			});
 	}
 });

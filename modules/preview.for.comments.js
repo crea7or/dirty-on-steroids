@@ -21,6 +21,7 @@ d3.addModule(
 		{
     		me.addPreview( commentBox );
 		}
+
 	},
 	addPreview: function( commentNode )
 	{
