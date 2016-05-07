@@ -6,7 +6,7 @@ d3.addModule(
 		author: 'Aivean',
 		newUsers: 0,
 		oldUsers: 0,
-		variant: ['d3.ru','leprosorium.ru'],
+		variant: ['dirty.ru','leprosorium.ru'],
 		config: {
 			active: {type: 'checkbox', value: 0},
 			oldskool: {type: 'checkbox', caption: 'Показывать олдскульность поста', value: 0},
@@ -20,10 +20,14 @@ d3.addModule(
 		},
 
 		mark: function(user, userId) {
-			switch(this.styleInt) {
-				case 0 : user.after(" <sup>*</sup>"); break;
-				case 1 : user.after(" <sup>" + userId + "</sup>"); break;
-				case 2 :  user.after(" <span style='padding-left:0.5em;'> | " + userId + "</span>"); break;
+			if (!user.data('marked')) {
+				switch (this.styleInt) {
+					case 0 : user.after(" <sup>*</sup>"); break;
+					case 1 : user.after(" <sup>" + userId + "</sup>"); break;
+					case 2 : user.after(" <span style='padding-left:0.5em;'> | " + userId + "</span>"); break;
+				}
+				user.data('marked', true);
+
 			}
 		},
 

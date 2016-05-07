@@ -6,7 +6,7 @@ d3.addModule(
 	author: 'crimaniak, Stasik0',
 	config: {
 		active:{type:'checkbox',value:1, description:'С правой стороны страницы появляется дополнительный навигатор, пользуясь которым, Вы можете перемещаться только по новым комментарим, либо только по своим, а также отмотать страницу вверх.'},
-		smoothScroll:{type:'checkbox',value:1,caption:'Плавная прокрутка'}
+		smoothScroll:{type:'checkbox',value:0,caption:'Плавная прокрутка'}
 	},
 	newItems: [],
 	mineItems: [],
@@ -18,6 +18,7 @@ d3.addModule(
 	scrollDestination: 0,
 	onlyNew: false,
 	run: function() {
+
 		this.drawButtons();
 		
 		var me=this;
@@ -37,6 +38,17 @@ d3.addModule(
 		});
 		var oldSwitch = d3.window.commentsHandler.switchNew;
 		d3.window.commentsHandler.switchNew = function(){oldSwitch.apply(d3.window.commentsHandler);me.onlyNewTest();me.processNewPosition();};
+
+
+
+		if ( d3.content.variant == "leprosorium.ru")
+		{
+			var leproNav = document.querySelector("ul.b-comments_navigation");
+			if ( leproNav )
+			{
+				leproNav.setAttribute('style',"display: none;");
+			}
+		}
 	},
 
 	onlyNewTest: function()
@@ -164,7 +176,7 @@ d3.addModule(
 		var content=item.container;
 
 		var inner;
-		if ( d3.content.variant == "d3.ru")
+		if ( d3.content.variant == "dirty.ru")
 		{
 			inner = $j(".comment_inner", content);
 		}

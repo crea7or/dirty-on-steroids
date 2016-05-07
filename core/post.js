@@ -3,7 +3,6 @@ var Post=function(container)
 {
 	this.container=container;
 	this.container.get(0).post=this;
-
 	this.id = parseInt(container.attr('id').substr(1), 10);
 	this.info=$j('.dd',this.container);
 	this.userName = $j('a[href*="/user/"]',this.info).text();

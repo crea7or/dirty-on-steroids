@@ -1,11 +1,11 @@
 // content interface module for *.d3.ru
 
-d3.addContentModule(/(.*\.)?d3.ru/i,
+d3.addContentModule(/(.*\.)?dirty.ru/i,
 {
 	type: "Ядро",
 	author: 'crimaniak',
-	name: 'Интерфейс к содержимому d3.ru',
-	variant: 'd3.ru',
+	name: 'Интерфейс к содержимому dirty.ru',
+	variant: 'dirty.ru',
 	posts: [],
 	comments: [],
 	commentListeners: [],
@@ -98,7 +98,7 @@ d3.addContentModule(/(.*\.)?d3.ru/i,
 		this.posts=[];
 		this.comments=[];
 		var me=this;
-		$j('.post').each(function () {
+		$j('.post:not(.b-related-posts_item)').each(function () {
 			me.countPost(new Post($j(this)));
 		});
 		$j('.comment').each(function () {

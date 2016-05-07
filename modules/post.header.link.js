@@ -4,7 +4,7 @@ d3.addModule(
 	type: "Содержание",
 	name: 'Показывать внешние ссылки из заголовков постов',
 	author: 'crea7or',
-	variant: ['d3.ru'],
+	variant: ['dirty.ru'],
 	config: {active:{type:'checkbox',value:1}			
 	},
 
@@ -17,11 +17,16 @@ d3.addModule(
 			if ( postLinks && postLinks.length > 0 )
 			{
 				linkHref = postLinks[0].hostname.replace(/^www\./, '');
-				linkPreview = document.createElement('a');
-				linkPreview.href = postLinks[0].href;
-				linkPreview.innerHTML = linkHref;
-				linkPreview.setAttribute('style', 'margin-left: 20px; opacity: 0.5;');
-				postHeader.appendChild(linkPreview);
+
+				if ( !postLinks[0].getAttribute('h3link'))
+				{
+					postLinks[0].setAttribute('h3link', 'added')
+					linkPreview = document.createElement('a');
+					linkPreview.href = postLinks[0].href;
+					linkPreview.innerHTML = linkHref;
+					linkPreview.setAttribute('style', 'margin-left: 20px; opacity: 0.5;');
+					postHeader.appendChild(linkPreview);
+				}
 			}
 		}
 	}

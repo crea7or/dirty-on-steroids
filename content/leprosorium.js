@@ -24,8 +24,8 @@ d3.addContentModule(/(.*\.)?leprosorium.ru/i,
 			my: document.location.pathname.substr(0, 4) == "/my/" && !isInbox,
 			postComments: (window.location.pathname.indexOf("/comments/") >= 0),
 			inboxComments: (( document.location.pathname.indexOf("/inbox/") > 0 ) && ( window.location.pathname.length > 15 )),
-			onlyNew: (document.location.href.indexOf('#new') > -1),
-			user: (window.location.pathname.indexOf("/user/")>=0) || (window.location.pathname.indexOf("/users/")>=0)
+			onlyNew: (document.location.href.indexOf('#new') > -1)//,
+			//user: (window.location.pathname.indexOf("/user/")>=0) || (window.location.pathname.indexOf("/users/")>=0)
 		};
 		/// Get element(s) of page
 		d3.get =

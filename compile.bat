@@ -1,1 +1,1 @@
-php build/d3merge.php %1 %2 %3
+php build/d3merge.php release %1 %2 %3
