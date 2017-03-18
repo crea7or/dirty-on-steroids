@@ -4,7 +4,7 @@ d3.addModule(
         type: "Прочее",
         name: 'XD',
         author: 'Stasik0',
-		variant: ['dirty.ru'],
+		variant: ['d3.ru'],
 		//-- USAGE EXAMPLES: --
 		//this.send("wtf.d3.ru",  '{"service":"ping"}');
 		//this.send("wtf.d3.ru",  '{"service":"bodyHtml"}', function(re){window.alert(re);});

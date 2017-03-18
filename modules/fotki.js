@@ -56,7 +56,7 @@ d3.addModule(
 		{
 			$j('img',c.container).each(function(index)
 			{
-				if(this.src=='http://img.dirty.ru/pics/lapata.gif') return;
+				if(this.src=='http://img.d3.ru/pics/lapata.gif') return;
 				found.push({src:this.src,id:c.id,rating:c.ratingValue()});
 				var r=c.ratingValue();
 				if(r!=0 && r==r) needToSort=true;
